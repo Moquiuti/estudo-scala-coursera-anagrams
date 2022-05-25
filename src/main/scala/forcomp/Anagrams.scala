@@ -106,7 +106,7 @@ object Anagrams extends AnagramsInterface {
    *  and has no zero-entries.
    */
   def subtract(x: Occurrences, y: Occurrences): Occurrences = {
-    val freqs = y.toMap withDefault 0
+    val freqs = y.toMap withDefaultValue  0
     x.map(e => (e._1, e._2 - freqs(e._1))).filter(e => e._2 != 0)
   }
 

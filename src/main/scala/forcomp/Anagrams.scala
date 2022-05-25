@@ -82,7 +82,18 @@ object Anagrams extends AnagramsInterface {
    *  Note that the order of the occurrence list subsets does not matter -- the subsets
    *  in the example above could have been displayed in some other order.
    */
-  def combinations(occurrences: Occurrences): List[Occurrences] = ???
+  def combinations(occurrences: Occurrences): List[Occurrences] = {
+    def expand(ocurr: Occurrences): List[Occurrences] =
+      for(thsChar <- ocurr.map(_._1)) yield subtract(ocurr, List((thsChar, 1)))
+
+    def expandAllLevels(occurrs: List[Occurrences]): List[Occurrences] =
+      occurrs match {
+        case List() => List()
+        case head::tail => head::tail ::: expandAllLevels((for(thsOcurr <- head::tail) yield  expand(thsOcurr)).flatten)
+      }
+
+    expandAllLevels(List(occurrences)).distinct
+  }
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
    *

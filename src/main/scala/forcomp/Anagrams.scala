@@ -35,7 +35,7 @@ object Anagrams extends AnagramsInterface {
    *
    *  Note: you must use `groupBy` to implement this method!
    */
-  def wordOccurrences(w: Word): Occurrences = { w.toLowerCase().toList.groupBy(x => x).mapValues(x => x.length).toList.sorted }
+  def wordOccurrences(w: Word): Occurrences = w.toLowerCase.groupBy(c => c).toList.map(c => (c._1, c._2.length)).sorted
 
   /** Converts a sentence into its character occurrence list. */
   def sentenceOccurrences(s: Sentence): Occurrences = s.map(wordOccurrences).flatten.sorted

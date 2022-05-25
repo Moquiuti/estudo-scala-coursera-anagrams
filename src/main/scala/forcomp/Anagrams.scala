@@ -105,7 +105,10 @@ object Anagrams extends AnagramsInterface {
    *  Note: the resulting value is an occurrence - meaning it is sorted
    *  and has no zero-entries.
    */
-  def subtract(x: Occurrences, y: Occurrences): Occurrences = ???
+  def subtract(x: Occurrences, y: Occurrences): Occurrences = {
+    val freqs = y.toMap withDefault 0
+    x.map(e => (e._1, e._2 - freqs(e._1))).filter(e => e._2 != 0)
+  }
 
   /** Returns a list of all anagram sentences of the given sentence.
    *

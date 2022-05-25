@@ -150,7 +150,18 @@ object Anagrams extends AnagramsInterface {
    *
    *  Note: There is only one anagram of an empty sentence.
    */
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = ???
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+    def getAnagrams(occurrences: Occurrences): List[Sentence] = occurrences match {
+      case List() => List(List())
+      case _ => for {
+        valueCMB <- combinations(occurrences)
+        if dictionaryByOccurrences.contains(valueCMB)
+        valueWRD <- dictionaryByOccurrences(valueCMB)
+        valueRest <- getAnagrams(subtract(occurrences,valueCMB))
+      } yield valueWRD :: valueRest
+    }
+    getAnagrams(sentenceOccurrences(sentence))
+  }
 }
 
 object Dictionary {
